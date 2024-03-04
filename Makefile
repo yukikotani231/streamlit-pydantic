@@ -13,51 +13,51 @@ all: install check
 # Install everything needed for development.
 install:
 	python -m pip install pipenv
-	pipenv --rm || true
-	pipenv install --dev --skip-lock
+	python -m pipenv --rm || true
+	python -m pipenv install --dev
 
 .PHONY: check
 # Run all formatting and linting checks.
 check:
 	# Run all formatting and linting checks:
-	pipenv run black --check src
-	pipenv run black --check tests
-	pipenv run isort --profile black --check-only src
-	pipenv run isort --profile black --check-only tests
-	pipenv run pydocstyle src
-	pipenv run mypy src
-	pipenv run flake8 --show-source --statistics src
-	pipenv run flake8 --show-source --statistics tests
+	python -m pipenv run black --check src
+	python -m pipenv run black --check tests
+	python -m pipenv run isort --profile black --check-only src
+	python -m pipenv run isort --profile black --check-only tests
+	python -m pipenv run pydocstyle src
+	python -m pipenv run mypy src
+	python -m pipenv run flake8 --show-source --statistics src
+	python -m pipenv run flake8 --show-source --statistics tests
 	# Checking package safety
-	pipenv check
+	python -m pipenv check
 
 .PHONY: format
 # Run code formatters.
 format:
 	# Format code via black and imports via isort:
-	pipenv run black src
-	pipenv run black tests
-	pipenv run isort --profile black src
-	pipenv run isort --profile black tests
+	python -m pipenv run black src
+	python -m pipenv run black tests
+	python -m pipenv run isort --profile black src
+	python -m pipenv run isort --profile black tests
 
 .PHONY: docs
 # Build the API documentation.
 docs:
-	pipenv run lazydocs --overview-file=README.md --src-base-url=https://github.com/lukasmasuch/streamlit-pydantic/blob/main streamlit_pydantic
+	python -m pipenv run lazydocs --overview-file=README.md --src-base-url=https://github.com/lukasmasuch/streamlit-pydantic/blob/main streamlit_pydantic
 
 .PHONY: build
 # Build everything for release.
 build: docs
 	rm -rf ./dist
 	rm -rf ./build
-	pipenv run python -m build
-	pipenv run twine check dist/*
+	python -m pipenv run python -m build
+	python -m pipenv run twine check dist/*
 
 .PHONY: test
 # Run unit tests.
 test:
-	pipenv run coverage erase
-	pipenv run pytest -m "not slow"
+	python -m pipenv run coverage erase
+	python -m pipenv run pytest -m "not slow"
 
 .PHONY: release
 # Build everything and upload distribution to PyPi.
