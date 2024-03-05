@@ -166,7 +166,6 @@ class InputUI:
                 if instance_value in [None, ""] and instance_dict_by_alias:
                     instance_value = instance_dict_by_alias.get(property_key)
                 if instance_value not in [None, ""]:
-                    property["init_value"] = instance_value
                     # keep a reference of the original class to help with non-discriminated unions
                     # TODO: This will not succeed for attributes that have an alias
                     attr = getattr(self._input_class, property_key, None)
@@ -818,7 +817,6 @@ class InputUI:
                 with input_col:
                     new_property = {
                         "title": label,
-                        "init_value": value if value else None,
                         "is_item": True,
                         "readOnly": property.get("readOnly"),
                         **property["items"],
@@ -869,7 +867,6 @@ class InputUI:
                 with value_col:
                     new_property = {
                         "title": "Value",
-                        "init_value": dict_value,
                         "is_item": True,
                         "readOnly": property.get("readOnly"),
                         **property["additionalProperties"],
