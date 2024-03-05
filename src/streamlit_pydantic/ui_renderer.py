@@ -166,7 +166,6 @@ class InputUI:
                 if instance_value in [None, ""] and instance_dict_by_alias:
                     instance_value = instance_dict_by_alias.get(property_key)
                 if instance_value not in [None, ""]:
-                    property["init_value"] = instance_value
                     # keep a reference of the original class to help with non-discriminated unions
                     # TODO: This will not succeed for attributes that have an alias
                     attr = getattr(self._input_class, property_key, None)
@@ -818,7 +817,6 @@ class InputUI:
                 with input_col:
                     new_property = {
                         "title": label,
-                        "init_value": value if value else None,
                         "is_item": True,
                         "readOnly": property.get("readOnly"),
                         **property["items"],
@@ -869,7 +867,6 @@ class InputUI:
                 with value_col:
                     new_property = {
                         "title": "Value",
-                        "init_value": dict_value,
                         "is_item": True,
                         "readOnly": property.get("readOnly"),
                         **property["additionalProperties"],
@@ -1338,7 +1335,7 @@ def pydantic_form(
             if the submit button is used and the input data passes the Pydantic validation.
     """
 
-    with st.form(key=key, clear_on_submit=clear_on_submit):
+    with st.container(border=True):
         input_state = pydantic_input(
             key,
             model,
@@ -1346,7 +1343,7 @@ def pydantic_form(
             lowercase_labels=lowercase_labels,
             ignore_empty_values=ignore_empty_values,
         )
-        submit_button = st.form_submit_button(label=submit_label)
+        submit_button = st.button(label=submit_label)
 
         if submit_button:
             try:
