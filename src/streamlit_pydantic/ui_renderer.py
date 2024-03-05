@@ -1338,7 +1338,7 @@ def pydantic_form(
             if the submit button is used and the input data passes the Pydantic validation.
     """
 
-    with st.form(key=key, clear_on_submit=clear_on_submit):
+    with st.container(border=True):
         input_state = pydantic_input(
             key,
             model,
@@ -1346,7 +1346,7 @@ def pydantic_form(
             lowercase_labels=lowercase_labels,
             ignore_empty_values=ignore_empty_values,
         )
-        submit_button = st.form_submit_button(label=submit_label)
+        submit_button = st.button(label=submit_label)
 
         if submit_button:
             try:
